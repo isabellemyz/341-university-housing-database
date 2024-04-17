@@ -1,5 +1,8 @@
 -- students, groups, preference
+--haven't tested yet! 
 
+
+--initialize student
 CREATE TABLE student (
   student_id int identity(1000, 1),
   first_name varchar(20),
@@ -13,13 +16,15 @@ CREATE TABLE student (
   CHECK (year BETWEEN 1 AND 5)
 );
 
+--initialize group
 CREATE TABLE group (
   group_id int identity(100, 1) 
-  size int, 
+  groupSize int, 
   coed boolean, 
   PRIMARY KEY (group_id)
 );
 
+--initialize preference
 CREATE TABLE preference (
   student_id int,
   smoke boolean,
@@ -74,6 +79,9 @@ VALUES
 (1013, false, 'classical', 'social', 7, 'clean', '2'),
 (1014, true, 'hip hop', 'social', 6, 'messy', '1');
 
+--insert group here
+
+--procedure for insert student
 CREATE or ALTER PROCEDURE insertStudent
   @student_id int output, 
   @first_name varchar(20),
@@ -81,26 +89,39 @@ CREATE or ALTER PROCEDURE insertStudent
   @year int,
   @is_ra boolean,
   @email varchar(50),
-  @phone_number varchar(20),
+  @phone_number varchar(20)
 as
 begin
 insert into student (first_name, last_name, year, is_ra, email, phone_number)
 values (@first_name, @last_name, @year, @is_ra, @email, @phone_number)
-SET @student_id = SCOPE_IDENTITY();
-END
+SET @student_id = SCOPE_IDENTITY(); --return student id, students are expected to remember it
+END; 
 
+--procedure for insert Group
 CREATE or ALTER PROCEDURE insertGroup
-  @student_id int output, 
-  @first_name varchar(20),
-  @last_name varchar(20),
-  @year int,
-  @is_ra boolean,
-  @email varchar(50),
-  @phone_number varchar(20),
+  @group_id int output, 
+  @groupSize int, 
+  @coed boolean
 as
 begin
-insert into student (first_name, last_name, year, is_ra, email, phone_number)
-values (@first_name, @last_name, @year, @is_ra, @email, @phone_number)
+insert into group (groupSize, coed)
+values (@groupSize, @coed, @year)
 SET @student_id = SCOPE_IDENTITY();
-END
+END; 
+
+
+--procedure for preference 
+CREATE or ALTER PROCEDURE insertPreference
+    @student_id int,
+    @smoke boolean,
+    @music varchar(20),
+    @space varchar(20),
+    @sleep_time int,
+    @living_style varchar(20),
+    @roommate_count smallint,
+as
+begin
+insert into student (student_id, smoke, music, space, sleep_time, living_style, roommate_count)
+values (@student_id, @smoke, @music, @space, @sleep_time, @living_style, @roommate_count)
+END; 
 
