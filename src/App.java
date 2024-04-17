@@ -78,14 +78,16 @@ public class App {
                 CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
             connection.setAutoCommit(false);
             // 4 parameters to stored proc start with a parameter index of
-            prepsStoredProc.setString(1, firstName);
-            prepsStoredProc.setString(2, lastName);
-            prepsStoredProc.setInt(3, year);
+            prepsStoredProc.setString(2, firstName);
+            prepsStoredProc.setString(3, lastName);
+            prepsStoredProc.setInt(4, year);
+            prepsStoredProc.setBoolean(5, isRA);
+            prepsStoredProc.setString(6, email);
             // the 4th parameter is an output parameter
-            prepsStoredProc.registerOutParameter(4,
+            prepsStoredProc.registerOutParameter(1,
                     java.sql.Types.INTEGER);
             prepsStoredProc.execute();
-            int generatedId = prepsStoredProc.getInt(4);
+            int generatedId = prepsStoredProc.getInt(1);
             System.out.println("Generated Identity: " +
                     generatedId);
             connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
