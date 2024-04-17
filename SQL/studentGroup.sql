@@ -89,7 +89,7 @@ values (@first_name, @last_name, @year, @is_ra, @email, @phone_number)
 SET @student_id = SCOPE_IDENTITY();
 END
 
-CREATE or ALTER PROCEDURE insertStudent
+CREATE or ALTER PROCEDURE insertGroup
   @student_id int output, 
   @first_name varchar(20),
   @last_name varchar(20),
