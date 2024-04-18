@@ -68,7 +68,7 @@ public class App {
     // methods for procedures
 
     // not done yet
-    public static int insertStudents(String firstName, String lastName, int year, bit isRA, String email,
+    public static int insertStudents(String firstName, String lastName, int year, boolean isRA, String email,
             String phoneNumber) {
 
         String callStoredProc = "{call dbo.insertStudent(?,?,?,?,?,?,?)}";
@@ -76,7 +76,7 @@ public class App {
         try (
                 Connection connection = DriverManager.getConnection(connectionUrl);
                 CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
-            connection.setAutoCommit(0);
+            connection.setAutoCommit(false);
             // 4 parameters to stored proc start with a parameter index of
             prepsStoredProc.setString(2, firstName);
             prepsStoredProc.setString(3, lastName);
