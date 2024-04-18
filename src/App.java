@@ -11,14 +11,14 @@ public class App {
             + "database=UniversityHousing;"
             + "user=dbuser;"
             + "password=csds341143sdsc;" // change this
-            + "encrypt=true;"
-            + "trustServerCertificate=true;"
+            + "encrypt=1;"
+            + "trustServerCertificate=1;"
             + "loginTimeout=15;";
 
     public static void main(String args[]) {
 
         Scanner myObj = new Scanner(System.in);
-        // while (true) {
+        // while (1) {
         System.out.println("Welcome to the University Housing Database!\nI'm a:\n\t0:Student\n\t1:Staff\n\t2:Admin");
         int userType = myObj.nextInt();
         if (userType == 0) { // student
@@ -76,7 +76,7 @@ public class App {
         try (
                 Connection connection = DriverManager.getConnection(connectionUrl);
                 CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
-            connection.setAutoCommit(false);
+            connection.setAutoCommit(0);
             // 4 parameters to stored proc start with a parameter index of
             prepsStoredProc.setString(2, firstName);
             prepsStoredProc.setString(3, lastName);
