@@ -68,7 +68,7 @@ public class App {
     // methods for procedures
 
     // not done yet
-    public static int insertStudents(String firstName, String lastName, int year, boolean isRA, String email,
+    public static int insertStudents(String firstName, String lastName, int year, bit isRA, String email,
             String phoneNumber) {
 
         String callStoredProc = "{call dbo.insertStudent(?,?,?,?,?,?,?)}";

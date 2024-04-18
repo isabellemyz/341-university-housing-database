@@ -9,7 +9,7 @@ CREATE TABLE student (
   last_name varchar(20),
   group_id int NULL REFERENCES group(group_id) ON DELETE SET NULL,
   year int,
-  is_ra boolean,
+  is_ra bit,
   email varchar(50),
   phone_number varchar(20),
   PRIMARY KEY (student_id), 
@@ -20,14 +20,14 @@ CREATE TABLE student (
 CREATE TABLE group (
   group_id int identity(100, 1) 
   groupSize int, 
-  coed boolean, 
+  coed bit, 
   PRIMARY KEY (group_id)
 );
 
 --initialize preference
 CREATE TABLE preference (
   student_id int,
-  smoke boolean,
+  smoke bit,
   music varchar(20),
   space varchar(20),
   sleep_time int,
@@ -87,7 +87,7 @@ CREATE or ALTER PROCEDURE insertStudent
   @first_name varchar(20),
   @last_name varchar(20),
   @year int,
-  @is_ra boolean,
+  @is_ra bit,
   @email varchar(50),
   @phone_number varchar(20)
 as
@@ -98,10 +98,10 @@ SET @student_id = SCOPE_IDENTITY(); --return student id, students are expected t
 END; 
 
 --procedure for insert Group
-CREATE or ALTER PROCEDURE insertGroup
+CREATE or ALTER PROCEDURE insertGroups
   @group_id int output, 
   @groupSize int, 
-  @coed boolean
+  @coed bit
 as
 begin
 insert into group (groupSize, coed)
@@ -113,7 +113,7 @@ END;
 --procedure for preference 
 CREATE or ALTER PROCEDURE insertPreference
     @student_id int,
-    @smoke boolean,
+    @smoke bit,
     @music varchar(20),
     @space varchar(20),
     @sleep_time int,
