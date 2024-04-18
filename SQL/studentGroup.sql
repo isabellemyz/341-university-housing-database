@@ -63,21 +63,21 @@ VALUES
 
 INSERT INTO preference (student_id, smoke, music, space, sleep_time, living_style, roommate_count)
 VALUES
-(1000, 0, 'pop', 'social', 8, 'clean', '2'),
-(1001, 1, 'rock', 'study', 6, 'messy', '1'),
-(1002, 0, 'jazz', 'social', 8, 'lived-in', '3'),
-(1003, 0, 'classical', 'social', 7, 'clean', '2'),
-(1004, 1, 'hip hop', 'social', 7, 'lived-in', '1'),
-(1005, 0, 'rock', 'study', 7, 'clean', '1'),
-(1006, 0, 'pop', 'social', 8, 'lived-in', '2'),
-(1007, 1, 'jazz', 'study', 6, 'messy', '1'),
-(1008, 0, 'classical', 'social', 7, 'lived-in', '2'),
-(1009, 0, 'hip hop', 'study', 7, 'clean', '1'),
-(1010, 0, 'pop', 'social', 7, 'clean', '2'),
-(1011, 0, 'rock', 'study', 8, 'lived-in', '1'),
-(1012, 1, 'jazz', 'social', 7, 'messy', '3'),
-(1013, 0, 'classical', 'social', 7, 'clean', '2'),
-(1014, 1, 'hip hop', 'social', 6, 'messy', '1');
+(1000, 0, 'pop', 'socializing', 8, 'clean', '2'),
+(1001, 1, 'rock', 'studying', 6, 'messy', '1'),
+(1002, 0, 'jazz', 'socializing', 8, 'lived-in', '3'),
+(1003, 0, 'classical', 'socializing', 7, 'clean', '2'),
+(1004, 1, 'hip hop', 'socializing', 7, 'lived-in', '1'),
+(1005, 0, 'rock', 'studying', 7, 'clean', '1'),
+(1006, 0, 'pop', 'socializing', 8, 'lived-in', '2'),
+(1007, 1, 'jazz', 'relaxing', 6, 'messy', '1'),
+(1008, 0, 'classical', 'socializing', 7, 'lived-in', '2'),
+(1009, 0, 'hip hop', 'studying', 7, 'clean', '1'),
+(1010, 0, 'pop', 'socializing', 7, 'clean', '2'),
+(1011, 0, 'rock', 'studying', 8, 'lived-in', '3'),
+(1012, 1, 'jazz', 'socializing', 7, 'messy', '3'),
+(1013, 0, 'classical', 'socializing', 7, 'clean', '2'),
+(1014, 1, 'hip hop', 'relaxing', 6, 'messy', '2');
 
 --insert group here
 
