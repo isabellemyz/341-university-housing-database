@@ -17,7 +17,7 @@ CREATE TABLE student (
   year int,
   is_ra bit,
   email varchar(50),
-  phone_number varchar(20),
+  phone_number varchar(20) UNIQUE,
   PRIMARY KEY (student_id), 
   CHECK (year BETWEEN 1 AND 5)
 );
