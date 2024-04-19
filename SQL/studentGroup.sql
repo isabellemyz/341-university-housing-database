@@ -42,7 +42,7 @@ CREATE TABLE preference (
 );
 
 
-//sample data for demonstration/
+--sample data for demonstration/
 INSERT INTO student (first_name, last_name, year, is_ra, email, phone_number)
 VALUES
 ('Crystal', 'Zhu', 2, 0, 'cxz@example.com', '123-456-7890'),
