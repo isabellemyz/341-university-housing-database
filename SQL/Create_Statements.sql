@@ -88,3 +88,13 @@ CREATE TABLE rooms (
 	FOREIGN KEY (building_id) REFERENCES buildings (building_id),
 	CHECK (status in ('available', 'unavailable'))
 );
+
+-- initialize building_amenity
+CREATE TABLE building_amenity (
+	building_id int,
+	amenity_id int,
+	amenity_count int,
+	PRIMARY KEY (building_id, amenity_id),
+	FOREIGN KEY (building_id) REFERENCES buildings (building_id),
+	FOREIGN KEY (amenity_id) REFERENCES amenity (amenity_id)
+);
