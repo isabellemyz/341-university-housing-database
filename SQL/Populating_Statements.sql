@@ -1,6 +1,6 @@
 USE UniversityHousing;
 
--- Populating data for the staff table
+-- populating data for the staff table
 INSERT INTO staff (first_name, last_name, position, status, email, phone_number) VALUES
 ('John', 'Doe', 'supervisor', 'active', 'john.doe@example.com', '123-456-7890'),
 ('Jane', 'Smith', 'plumber', 'active', 'jane.smith@example.com', '234-567-8901'),
@@ -18,8 +18,7 @@ INSERT INTO staff (first_name, last_name, position, status, email, phone_number)
 ('Laura', 'Hernandez', 'custodian', 'active', 'laura.hernandez@example.com', '456-789-0123'),
 ('Daniel', 'Young', 'technician', 'active', 'daniel.young@example.com', '567-890-1234');
 
--- Populating data for the amenity table
-
+-- populating data for the amenity table
 INSERT INTO amenity (name, category, start_time, end_time, description, cost) VALUES
 ('Swimming Pool', 'outdoor', '2024-04-18 08:00:00', '2024-04-18 20:00:00', 'Swimming pool; deepest 12 feet', 10),
 ('Gym', 'indoor', '2024-04-18 05:00:00', '2024-04-18 22:00:00', 'Fully equipped gym with weights', 30),
@@ -33,7 +32,7 @@ INSERT INTO amenity (name, category, start_time, end_time, description, cost) VA
 ('Volleyball Court', 'outdoor', '2024-04-18 10:00:00', '2024-04-18 18:00:00', 'Outdoor volleyball court', 7);
 -- add more amenities
 
-
+-- populating data for the student table
 INSERT INTO student (first_name, last_name, year, is_ra, email, phone_number)
 VALUES
 ('Crystal', 'Zhu', 2, 0, 'cxz@example.com', '123-456-7890'),
@@ -52,6 +51,7 @@ VALUES
 ('Ivy', 'Garcia', 1, 0, 'ivy.garcia@example.com', '999-999-9999'),
 ('Jack', 'Harris', 1, 0, 'jack.harris@example.com', '000-000-0000');
 
+-- populating data for the preferences table
 INSERT INTO preference (student_id, smoke, music, space, sleep_time, living_style, roommate_count)
 VALUES
 (1000, 0, 'pop', 'socializing', 8, 'clean', '2'),
@@ -76,3 +76,47 @@ INSERT INTO buildings (name, num_rooms, num_floors) VALUES
 ('Taplin', 6, 4),
 ('Staley', 10, 6),
 ('Village House 3A', 7, 4);
+
+-- populating data for the rooms table
+declare @building_id int;
+
+set @building_id = (select building_id from buildings where name = 'Taft')
+insert into rooms (room_number, building_id, floors, capacity, price, status) values
+(100, @building_id, 1, 2, 5000, 'available'),
+(110, @building_id, 1, 2, 5000, 'available'),
+(200, @building_id, 1, 2, 5000, 'available'),
+(210, @building_id, 1, 2, 5000, 'unavailable'),
+(300, @building_id, 1, 2, 5000, 'unavailable'),
+(400, @building_id, 1, 2, 5000, 'unavailable');
+
+set @building_id = (select building_id from buildings where name = 'Taplin')
+insert into rooms (room_number, building_id, floors, capacity, price, status) values
+(100, @building_id, 1, 2, 5000, 'available'),
+(200, @building_id, 1, 2, 5000, 'available'),
+(210, @building_id, 1, 2, 5000, 'unavailable'),
+(300, @building_id, 1, 2, 5000, 'unavailable'),
+(310, @building_id, 1, 2, 5000, 'unavailable'),
+(400, @building_id, 1, 2, 5000, 'unavailable');
+
+set @building_id = (select building_id from buildings where name = 'Staley')
+insert into rooms (room_number, building_id, floors, capacity, price, status) values
+(100, @building_id, 1, 6, 6000, 'available'),
+(110, @building_id, 1, 6, 6000, 'available'),
+(200, @building_id, 1, 6, 6000, 'available'),
+(210, @building_id, 1, 6, 6000, 'available'),
+(300, @building_id, 1, 6, 6000, 'available'),
+(310, @building_id, 1, 6, 6000, 'available'),
+(320, @building_id, 1, 6, 6000, 'unavailable'),
+(400, @building_id, 1, 6, 6000, 'unavailable'),
+(500, @building_id, 1, 6, 6000, 'unavailable'),
+(600, @building_id, 1, 6, 6000, 'unavailable');
+
+set @building_id = (select building_id from buildings where name = 'Village House 3A')
+insert into rooms (room_number, building_id, floors, capacity, price, status) values
+(100, @building_id, 1, 4, 6000, 'available'),
+(110, @building_id, 1, 4, 6000, 'available'),
+(200, @building_id, 2, 5, 6000, 'available'),
+(210, @building_id, 1, 6, 6000, 'available'),
+(300, @building_id, 2, 7, 6000, 'available'),
+(310, @building_id, 2, 7, 6000, 'unavailable'),
+(400, @building_id, 2, 7, 6000, 'unavailable');
