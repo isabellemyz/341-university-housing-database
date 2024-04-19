@@ -37,14 +37,6 @@ public class App {
                     
                     System.out.println("Enter student's last name, then press enter: ");
                     String inpLastName = myObj.nextLine();
-                    
-                    System.out.println("Enter student's group ID if it exists, then press enter. Else, only press enter: ");
-                    String inpGroupIdStr = myObj.nextLine();
-                    Integer inpGroupId = null;
-
-                    if (!inpGroupIdStr.isEmpty()) {
-                        inpGroupId = Integer.parseInt(inpGroupIdStr);
-                    }
 
                     System.out.println("Enter student's year, then press enter: ");
                     int inpYear = myObj.nextInt();
@@ -62,7 +54,7 @@ public class App {
 
                     myObj.close();
 
-                    App.insertStudent(inpFirstName, inpLastName, inpGroupId, inpYear, inpIsRA, inpEmail, inpPhoneNumber);
+                    App.insertStudent(inpFirstName, inpLastName, inpYear, inpIsRA, inpEmail, inpPhoneNumber);
 
                     break;
                 case 1:
@@ -132,10 +124,10 @@ public class App {
     // methods for procedures
 
     // insertStudents WORKS!
-    public static int insertStudent(String firstName, String lastName, Integer groupId, int year, boolean isRA, String email,
+    public static int insertStudent(String firstName, String lastName, int year, boolean isRA, String email,
             String phoneNumber) {
 
-        String callStoredProc = "{call dbo.insertStudent(?,?,?,?,?,?,?)}";
+        String callStoredProc = "{call dbo.insertStudent(?,?,?,?,?,?,?,?)}";
 
         try (
                 Connection connection = DriverManager.getConnection(connectionUrl);
@@ -146,23 +138,17 @@ public class App {
             prepsStoredProc.setString(2, firstName);
             prepsStoredProc.setString(3, lastName);
             prepsStoredProc.setInt(5, year);
+            prepsStoredProc.setNull(4, java.sql.Types.INTEGER);
             prepsStoredProc.setBoolean(6, isRA);
             prepsStoredProc.setString(7, email);
+            prepsStoredProc.setString(8, phoneNumber);
 
-            // group ID may be null
-            if (groupId != null) {
-                prepsStoredProc.setInt(4, groupId);
-            } else {
-                prepsStoredProc.setNull(4, java.sql.Types.INTEGER);
-            }
-
-            // the 4th parameter is an output parameter
             prepsStoredProc.registerOutParameter(1,
                     java.sql.Types.INTEGER);
             
             prepsStoredProc.execute();
             int generatedId = prepsStoredProc.getInt(1);
-            System.out.println("Generated Identity: " +
+            System.out.println("New student ID: " +
                     generatedId);
             
             connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
