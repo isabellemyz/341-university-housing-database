@@ -7,12 +7,12 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class App {
-    private static final String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\txl790;" // change this
+    private static final String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\txl790;" // PUT YOUR INFO HERE
             + "database=UniversityHousing;"
-            + "user=dbuser;"
-            + "password=csds341143sdsc;" // change this
-            + "encrypt=1;"
-            + "trustServerCertificate=1;"
+            + "user=dbuser;" // MAKE SURE YOU HAVE dbuser AND CORRECT PASSWORD ON YOUR DB
+            + "password=csds341143sdsc;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true;"
             + "loginTimeout=15;";
 
     public static void main(String args[]) {
@@ -21,13 +21,49 @@ public class App {
         // while (1) {
         System.out.println("Welcome to the University Housing Database!\nI'm a:\n\t0:Student\n\t1:Staff\n\t2:Admin");
         int userType = myObj.nextInt();
+        myObj.nextLine();
+
         if (userType == 0) { // student
             System.out.println(
-                    "Please enter an action:\n\t0:Enroll a student\n\t1:Edit my profile\n\t2:Create a new group\n\t3:View housing options\n\t4:match me\n\t5:maintenance");
+                    "Please enter an action:\n\t0:Enroll a student\n\t1:Edit my profile\n\t2:Create a new group\n\t3:View housing options\n\t4:Match me\n\t5:Maintenance");
             int studentAction = myObj.nextInt();
+            myObj.nextLine();
+
             switch (studentAction) {
                 case 0:
                     // insert student
+                    System.out.println("Enter student's first name, then press enter: ");
+                    String inpFirstName = myObj.nextLine();
+                    
+                    System.out.println("Enter student's last name, then press enter: ");
+                    String inpLastName = myObj.nextLine();
+                    
+                    System.out.println("Enter student's group ID if it exists, then press enter. Else, only press enter: ");
+                    String inpGroupIdStr = myObj.nextLine();
+                    Integer inpGroupId = null;
+
+                    if (!inpGroupIdStr.isEmpty()) {
+                        inpGroupId = Integer.parseInt(inpGroupIdStr);
+                    }
+
+                    System.out.println("Enter student's year, then press enter: ");
+                    int inpYear = myObj.nextInt();
+                    myObj.nextLine();
+                    
+                    System.out.println("Enter if student is RA (TRUE or FALSE), then press enter: ");
+                    boolean inpIsRA = myObj.nextBoolean();
+                    myObj.nextLine();
+
+                    System.out.println("Enter student's email, then press enter: ");
+                    String inpEmail = myObj.nextLine();
+                    
+                    System.out.println("Enter student's phone number (XXX-XXX-XXXX), then press enter: ");
+                    String inpPhoneNumber = myObj.nextLine();
+
+                    myObj.close();
+
+                    App.insertStudent(inpFirstName, inpLastName, inpGroupId, inpYear, inpIsRA, inpEmail, inpPhoneNumber);
+
                     break;
                 case 1:
                     // update student
@@ -55,11 +91,39 @@ public class App {
                     System.out.println("Invalid action.");
             }
 
-        } else if (userType == 1) { // Staff
-            System.out.println("im one!"); // change this
-        } else if (userType == 2) {
-            System.out.println("im admin");// change this
-        } else {// admin
+        } else if (userType == 1) { // maintenance staff
+            System.out.println(
+                "Please enter an action:\n\t0:"
+
+            ); // change this
+
+
+        } else if (userType == 2) { // admin
+            System.out.println(
+                "Please enter an action:\n\t0:Update availability information\n\t1:Update amenities\n\t2:Assign groups"
+            );
+
+            int adminAction = myObj.nextInt();
+            
+            switch (adminAction) {
+                case 0:
+                    // update availability
+                    break;
+                
+                case 1:
+                    // update amenities
+                    break;
+                
+                case 2:
+                    // assign groups
+                    break;
+                
+                default:
+                    System.out.println("Invalid action.");
+            }
+
+            
+        } else {
             throw new IllegalArgumentException("Please enter a value between 0 to 2");
         }
         // }
@@ -67,8 +131,8 @@ public class App {
 
     // methods for procedures
 
-    // not done yet
-    public static int insertStudents(String firstName, String lastName, int year, boolean isRA, String email,
+    // insertStudents WORKS!
+    public static int insertStudent(String firstName, String lastName, Integer groupId, int year, boolean isRA, String email,
             String phoneNumber) {
 
         String callStoredProc = "{call dbo.insertStudent(?,?,?,?,?,?,?)}";
@@ -77,19 +141,30 @@ public class App {
                 Connection connection = DriverManager.getConnection(connectionUrl);
                 CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
             connection.setAutoCommit(false);
-            // 4 parameters to stored proc start with a parameter index of
+
+            // from user input
             prepsStoredProc.setString(2, firstName);
             prepsStoredProc.setString(3, lastName);
-            prepsStoredProc.setInt(4, year);
-            prepsStoredProc.setBoolean(5, isRA);
-            prepsStoredProc.setString(6, email);
+            prepsStoredProc.setInt(5, year);
+            prepsStoredProc.setBoolean(6, isRA);
+            prepsStoredProc.setString(7, email);
+
+            // group ID may be null
+            if (groupId != null) {
+                prepsStoredProc.setInt(4, groupId);
+            } else {
+                prepsStoredProc.setNull(4, java.sql.Types.INTEGER);
+            }
+
             // the 4th parameter is an output parameter
             prepsStoredProc.registerOutParameter(1,
                     java.sql.Types.INTEGER);
+            
             prepsStoredProc.execute();
             int generatedId = prepsStoredProc.getInt(1);
             System.out.println("Generated Identity: " +
                     generatedId);
+            
             connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
             return generatedId;
         } catch (SQLException e) {
@@ -98,5 +173,11 @@ public class App {
         }
         return -1;
 
+    }
+
+
+
+    public static int insertAmenity(String name, String category, String startTime, String endTime, String accessibility, int cost) {
+        return -1;
     }
 }
