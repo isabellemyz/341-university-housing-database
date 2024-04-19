@@ -66,3 +66,56 @@ END;
 --	@building_name = 'Taft',
 --	@room_number = 100,
 --	@availability = 'unavailable';
+
+
+-- this is tested
+-- procedure for adding a new amenity
+CREATE OR ALTER PROCEDURE addAmenity
+    @amenity_name VARCHAR(100),
+    @category VARCHAR(100),
+    @start_time TIME,
+    @end_time TIME,
+    @description VARCHAR(50),
+    @cost DECIMAL(10, 2),
+    @building_name VARCHAR(100),
+    @amenity_count INT
+AS
+BEGIN
+    DECLARE @building_id INT;
+    DECLARE @amenity_id INT;
+
+    BEGIN TRANSACTION;
+
+    -- Insert new amenity and capture the inserted amenity_id
+    INSERT INTO amenity (name, category, start_time, end_time, description, cost)
+    VALUES (@amenity_name, @category, @start_time, @end_time, @description, @cost);
+
+	SET @amenity_id = SCOPE_IDENTITY();
+
+    -- Commit the first transaction
+    COMMIT TRANSACTION;
+
+    BEGIN TRANSACTION;
+
+    -- Get building ID
+    SET @building_id = (SELECT building_id FROM buildings WHERE name = @building_name);
+
+    -- Insert into building_amenity
+    INSERT INTO building_amenity (building_id, amenity_id, amenity_count)
+    VALUES (@building_id, @amenity_id, @amenity_count);
+
+    -- Commit the second transaction
+    COMMIT TRANSACTION;
+
+END
+
+-- example exec statement below
+-- EXEC addAmenity
+--	@amenity_name = 'Water station',
+--	@category = 'indoor',
+--	@start_time = '2024-04-18 08:00:00.000',
+--	@end_time = '2024-04-18 08:00:00.000',
+--	@description = 'Water station for drinking',
+--	@cost = 0,
+--	@building_name = 'Taft',
+--	@amenity_count = 3
