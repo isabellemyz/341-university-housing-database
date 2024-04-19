@@ -78,7 +78,7 @@ CREATE TABLE buildings (
 
 -- initialize rooms
 CREATE TABLE rooms (
-	room_number int identity(1000, 1),
+	room_number int,
 	building_id int,
 	floors int,
 	capacity int,
