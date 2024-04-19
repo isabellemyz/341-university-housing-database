@@ -96,10 +96,22 @@ public class App {
             );
 
             int adminAction = myObj.nextInt();
+            myObj.nextLine();
             
             switch (adminAction) {
                 case 0:
                     // update availability
+                    System.out.println("Enter the building of the room, then press enter: ");
+                    String inpBuildingName = myObj.nextLine();
+
+                    System.out.println("Enter the room number of the room, then press enter: ");
+                    int inpRoomNumber = myObj.nextInt();
+                    myObj.nextLine();
+
+                    System.out.println("Enter the updated availability (available or unavailable), then press enter: ");
+                    String inpAvailability = myObj.nextLine();
+
+                    App.updateRoomStatus(inpBuildingName, inpRoomNumber, inpAvailability);
                     break;
                 
                 case 1:
@@ -113,7 +125,6 @@ public class App {
                 default:
                     System.out.println("Invalid action.");
             }
-
             
         } else {
             throw new IllegalArgumentException("Please enter a value between 0 to 2");
@@ -159,6 +170,31 @@ public class App {
         }
         return -1;
 
+    }
+
+    // updateRoomStatus is done
+    public static int updateRoomStatus(String buildingName, int roomNumber, String availability) {
+        String callStoredProc = "{call dbo.updateRoomStatus(?,?,?)}";
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+        CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
+            connection.setAutoCommit(false);
+
+            // from user input
+            prepsStoredProc.setString(1, buildingName);
+            prepsStoredProc.setInt(2, roomNumber);
+            prepsStoredProc.setString(3, availability);
+
+            prepsStoredProc.execute();
+
+            System.out.println(buildingName + ", Room #" + roomNumber + " is now " + availability);
+            
+            connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
     }
 
 
