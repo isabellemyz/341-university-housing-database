@@ -72,12 +72,7 @@ VALUES
 
 -- populating data for the buildings table
 INSERT INTO buildings (name, num_rooms, num_floors) VALUES
-('Taft', 64, 4),
-('Taplin', 64, 4),
-('Tippit', 12, 4),
-('Staley', 13, 6),
-('Michelson', 24, 6),
-('Village House 1', 20, 4),
-('Village House 2', 20, 4),
-('Village House 3', 20, 4),
-('Village House 3A', 16, 4);
+('Taft', 6, 4),
+('Taplin', 6, 4),
+('Staley', 10, 6),
+('Village House 3A', 7, 4);
