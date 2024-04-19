@@ -69,3 +69,33 @@ VALUES
 (1012, 1, 'jazz', 'socializing', 7, 'messy', '3'),
 (1013, 0, 'classical', 'socializing', 7, 'clean', '2'),
 (1014, 1, 'hip hop', 'relaxing', 6, 'messy', '2');
+
+-- populating data for the buildings table
+INSERT INTO buildings (name, num_rooms, num_floors) VALUES
+('Taft', 64, 4),
+('Taplin', 64, 4),
+('Smith', 64, 4),
+('Cutter', 60, 4),
+('Sherman', 50, 4),
+('Raymond', 50, 4),
+('Norton', 50, 4),
+('Tyler', 54, 4),
+('Storrs', 50, 4),
+('Pierce', 50, 4),
+('Cutler', 50, 4),
+('Clarke', 38, 11),
+('Tippit', 12, 4),
+('Howe', 13, 4),
+('Staley', 13, 6),
+('Alumni', 13, 6),
+('Glaser', 24, 6),
+('Kusch', 24, 6),
+('Michelson', 24, 6),
+('Village House 1', 20, 4),
+('Village House 2', 20, 4),
+('Village House 3', 20, 4),
+('Village House 3A', 16, 4),
+('Village House 4', 21, 3),
+('Village House 5', 26, 4),
+('Village House 6', 21, 4),
+('Village House 7', 25, 4);
