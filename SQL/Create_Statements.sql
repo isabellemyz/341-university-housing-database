@@ -85,5 +85,6 @@ CREATE TABLE rooms (
 	price int,
 	status varchar(20),
 	PRIMARY KEY (room_number, building_id),
-	FOREIGN KEY (building_id) REFERENCES buildings (building_id)
+	FOREIGN KEY (building_id) REFERENCES buildings (building_id),
+	CHECK (status in ('available', 'unavailable'))
 );
