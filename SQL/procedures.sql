@@ -3,16 +3,17 @@ CREATE or ALTER PROCEDURE insertStudent
   @student_id int output, 
   @first_name varchar(20),
   @last_name varchar(20),
+  @group_id int = NULL,
   @year int,
   @is_ra bit,
   @email varchar(50),
   @phone_number varchar(20)
 AS
 BEGIN
-INSERT INTO student (first_name, last_name, year, is_ra, email, phone_number)
-VALUES (@first_name, @last_name, @year, @is_ra, @email, @phone_number)
+INSERT INTO student (first_name, last_name, group_id, year, is_ra, email, phone_number)
+VALUES (@first_name, @last_name, @group_id, @year, @is_ra, @email, @phone_number)
 SET @student_id = SCOPE_IDENTITY(); --return student id, students are expected to remember it
-END; 
+END;
 
 --exec statement 
 -- DECLARE @newStudentId int;
