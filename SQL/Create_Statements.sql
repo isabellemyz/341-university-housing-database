@@ -66,3 +66,24 @@ CREATE TABLE amenity (
   PRIMARY KEY (amenity_id),
   CHECK (category in ('indoor', 'outdoor'))
 );
+
+-- initialize buildings
+CREATE TABLE buildings (
+	building_id int identity(1000, 1),
+	name varchar(20),
+	num_rooms int,
+	num_floors int,
+	PRIMARY KEY (building_id)
+);
+
+-- initialize rooms
+CREATE TABLE rooms (
+	room_number int identity(1000, 1),
+	building_id int,
+	floors int,
+	capacity int,
+	price int,
+	status varchar(20),
+	PRIMARY KEY (room_number, building_id),
+	FOREIGN KEY (building_id) REFERENCES buildings (building_id)
+);
