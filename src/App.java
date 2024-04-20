@@ -64,21 +64,26 @@ public class App {
                     System.out
                             .println("Do you smoke, or do you not mind living with someone who smokes?(TRUE or FALSE)");
                     boolean inpSmoke = myObj.nextBoolean();
+                    myObj.nextLine();
 
                     System.out.println(
                             "What kind of music do you listen to?('hip hop', 'classical', 'pop', 'rock', 'jazz')");
                     String inpMusic = myObj.nextLine().toLowerCase();
+                    myObj.nextLine();
 
                     System.out.println(
                             "How do you want your space to be utilized?('studying', 'socializing', 'relaxing')");
                     String inpSpace = myObj.nextLine().toLowerCase();
+                    myObj.nextLine();
 
                     System.out.println("When do you usually go to bed?(enter a number, ex. 8 = 8pm, 1 = 1 am)"); 
                     int inpSleep = myObj.nextInt(); 
+                    myObj.nextLine();
 
                     System.out.println(
                             "How do you prefer your living space to be organized?('messy', 'clean', 'lived-in')");
                     String inpLiving = myObj.nextLine().toLowerCase(); 
+                    myObj.nextLine();
 
                     System.out.println("How many roommates are you comfortable living with?(enter a number between 1 to 9)");
                     int inpRoommate = myObj.nextInt(); 
