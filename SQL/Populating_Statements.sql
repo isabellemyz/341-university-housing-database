@@ -1,6 +1,6 @@
 USE UniversityHousing;
 
--- populating data for the staff table
+-- Populating data for the staff table
 INSERT INTO staff (first_name, last_name, position, status, email, phone_number) VALUES
 ('John', 'Doe', 'supervisor', 'active', 'john.doe@example.com', '123-456-7890'),
 ('Jane', 'Smith', 'plumber', 'active', 'jane.smith@example.com', '234-567-8901'),
@@ -18,19 +18,25 @@ INSERT INTO staff (first_name, last_name, position, status, email, phone_number)
 ('Laura', 'Hernandez', 'custodian', 'active', 'laura.hernandez@example.com', '456-789-0123'),
 ('Daniel', 'Young', 'technician', 'active', 'daniel.young@example.com', '567-890-1234');
 
--- populating data for the amenity table
+-- Populating data for the amenity table
+-- Here if they have the same start and end time they are open 24/7
+
 INSERT INTO amenity (name, category, start_time, end_time, description, cost) VALUES
 ('Swimming Pool', 'outdoor', '2024-04-18 08:00:00', '2024-04-18 20:00:00', 'Swimming pool; deepest 12 feet', 10),
 ('Gym', 'indoor', '2024-04-18 05:00:00', '2024-04-18 22:00:00', 'Fully equipped gym with weights', 30),
 ('Tennis Court', 'outdoor', '2024-04-18 08:00:00', '2024-04-18 20:00:00', 'Outdoor tennis court', 0),
-('Sauna', 'indoor', '2024-04-18 10:00:00', '2024-04-18 20:00:00', 'Indoor sauna', 20),
+('Ethernet', 'indoor', '2024-04-18 10:00:00', '2024-04-18 10:00:00', 'Ethernet available in each dorm', 0),
 ('Basketball Court', 'outdoor', '2024-04-18 08:00:00', '2024-04-18 20:00:00', 'Outdoor basketball court', 0),
-('Spa', 'indoor', '2024-04-18 12:00:00', '2024-04-18 18:00:00', 'Indoor spa', 25),
+('Elevator', 'indoor', '2024-04-18 12:00:00', '2024-04-18 12:00:00', 'An elevator through the whole building', 25),
 ('Yoga Studio', 'indoor', '2024-04-18 07:00:00', '2024-04-18 19:00:00', 'Indoor yoga studio', 10),
-('Mini Golf', 'outdoor', '2024-04-18 09:00:00', '2024-04-18 21:00:00', 'Outdoor mini golf course', 8),
+('Dance Studio', 'indoor', '2024-04-18 07:00:00', '2024-04-18 19:00:00', 'Indoor dance studio', 10),
+('Communal Bathroom', 'indoor', '2024-04-18 09:00:00', '2024-04-18 9:00:00', 'Shared bathroom for a single floor', 8),
 ('Squash Court', 'indoor', '2024-04-18 08:00:00', '2024-04-18 20:00:00', 'Indoor squash court', 12),
-('Volleyball Court', 'outdoor', '2024-04-18 10:00:00', '2024-04-18 18:00:00', 'Outdoor volleyball court', 7);
--- add more amenities
+('Volleyball Court', 'outdoor', '2024-04-18 8:00:00', '2024-04-18 18:00:00', 'Outdoor volleyball court', 7),
+('Air Conditioning', 'indoor', '2024-04-18 10:00:00', '2024-04-18 10:00:00', 'Air conditioning for each dorm', 30),
+('Study Area', 'indoor', '2024-04-18 10:00:00', '2024-04-18 10:00:00', 'Study area on a floor', 0),
+('Vending Machines', 'indoor', '2024-04-18 10:00:00', '2024-04-18 10:00:00', 'Vending machines for snacks & drinks', 0),
+('Laundry', 'indoor', '2024-04-18 8:00:00', '2024-04-18 18:00:00', 'Laundry for all residents', 7);
 
 -- populating data for the student table
 INSERT INTO student (first_name, last_name, year, is_ra, email, phone_number)
