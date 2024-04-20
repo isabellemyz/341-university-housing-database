@@ -76,7 +76,7 @@ CREATE OR ALTER PROCEDURE addAmenity
     @start_time TIME,
     @end_time TIME,
     @description VARCHAR(50),
-    @cost DECIMAL(10, 2),
+    @cost INT,
     @building_name VARCHAR(100),
     @amenity_count INT
 AS
