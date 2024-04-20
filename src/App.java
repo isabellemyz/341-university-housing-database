@@ -179,4 +179,10 @@ public class App {
         }
         // }
     }
+
+     // helper method to parse timestamps
+    private static Timestamp parseTimestamp(String timestampStr) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return new Timestamp(dateFormat.parse(timestampStr).getTime());
+    }
 }
