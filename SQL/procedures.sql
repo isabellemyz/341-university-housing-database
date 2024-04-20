@@ -71,40 +71,35 @@ END;
 -- this is tested
 -- procedure for adding a new amenity
 CREATE OR ALTER PROCEDURE addAmenity
-    @amenity_name VARCHAR(100),
-    @category VARCHAR(100),
-    @start_time TIME,
-    @end_time TIME,
-    @description VARCHAR(50),
-    @cost INT,
-    @building_name VARCHAR(100),
-    @amenity_count INT
+    @amenity_name varchar(100),
+    @category varchar(100),
+    @start_time datetime,
+    @end_time datetime,
+    @description varchar(50),
+    @cost int,
+    @building_name varchar(100),
+    @amenity_count int
 AS
 BEGIN
-    DECLARE @building_id INT;
-    DECLARE @amenity_id INT;
+    DECLARE @building_id int;
+    DECLARE @amenity_id int;
 
     BEGIN TRANSACTION;
 
-    -- Insert new amenity and capture the inserted amenity_id
     INSERT INTO amenity (name, category, start_time, end_time, description, cost)
     VALUES (@amenity_name, @category, @start_time, @end_time, @description, @cost);
 
 	SET @amenity_id = SCOPE_IDENTITY();
 
-    -- Commit the first transaction
     COMMIT TRANSACTION;
 
     BEGIN TRANSACTION;
 
-    -- Get building ID
     SET @building_id = (SELECT building_id FROM buildings WHERE name = @building_name);
 
-    -- Insert into building_amenity
     INSERT INTO building_amenity (building_id, amenity_id, amenity_count)
     VALUES (@building_id, @amenity_id, @amenity_count);
 
-    -- Commit the second transaction
     COMMIT TRANSACTION;
 
 END
