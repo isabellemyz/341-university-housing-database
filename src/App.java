@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import mypackage.Admin;
 import mypackage.Student;
@@ -121,6 +124,46 @@ public class App {
                 
                 case 1:
                     // update amenities
+                    System.out.println("Enter the new amenity name, then press enter: ");
+                    String inpAmenityName = myObj.nextLine();
+
+                    System.out.println("Enter the category (indoor or outdoor), then press enter: ");
+                    String inpCategory = myObj.nextLine();
+
+                    System.out.println("Enter the start time of usage (yyyy-mm-dd hh:mm:ss), then press enter: ");
+                    String startTimeStr = myObj.nextLine();
+
+                    System.out.println("Enter the end time of usage (yyyy-mm-dd hh:mm:ss), then press enter: ");
+                    String endTimeStr = myObj.nextLine();
+
+                    System.out.println("Enter the amenity's description, then press enter: ");
+                    String inpDescription = myObj.nextLine();
+
+                    System.out.println("Enter the amenity's cost, then press enter: ");
+                    int inpCost = myObj.nextInt();
+                    myObj.nextLine();
+
+                    System.out.println("Enter the name of the building the amenity will be added to, then press enter: ");
+                    String inpAmenityBuildingName = myObj.nextLine();
+
+                    System.out.println("Enter how many amenities will be added, then press enter: ");
+                    int inpAmenityCount = myObj.nextInt();
+                    myObj.nextLine();
+
+                    myObj.close();
+
+                    Timestamp inpStartTime = null;
+                    Timestamp inpEndTime = null;
+
+                    try { 
+                        inpStartTime = App.parseTimestamp(startTimeStr);
+                        inpEndTime = App.parseTimestamp(endTimeStr);
+                    } catch (ParseException e) {
+                        System.err.println("Error: Invalid timestamp format. Please enter timestamp in the format yyyy-MM-dd HH:mm:ss");
+                    }
+
+                    Admin.addAmenity(inpAmenityName, inpCategory, inpStartTime, inpEndTime, inpDescription, inpCost, inpAmenityBuildingName,
+                        inpAmenityCount, connectionUrl);
                     break;
                 
                 case 2:
