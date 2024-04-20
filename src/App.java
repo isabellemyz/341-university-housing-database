@@ -6,7 +6,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import mypackage.Admin;
+import mypackage.Student;
+
 public class App {
+    // want to rework this to prompt user for username (ex: ixz33), database name, user (dbuser), and password
+    // then generate connectionUrl dynamically
     private static final String connectionUrl = "jdbc:sqlserver://cxp-sql-03\\txl790;" // PUT YOUR INFO HERE
             + "database=UniversityHousing;"
             + "user=dbuser;" // MAKE SURE YOU HAVE dbuser AND CORRECT PASSWORD ON YOUR DB
@@ -54,7 +59,7 @@ public class App {
 
                     myObj.close();
 
-                    App.insertStudent(inpFirstName, inpLastName, inpYear, inpIsRA, inpEmail, inpPhoneNumber);
+                    Student.insertStudent(inpFirstName, inpLastName, inpYear, inpIsRA, inpEmail, inpPhoneNumber, connectionUrl);
 
                     break;
                 case 1:
@@ -111,7 +116,7 @@ public class App {
                     System.out.println("Enter the updated availability (available or unavailable), then press enter: ");
                     String inpAvailability = myObj.nextLine();
 
-                    App.updateRoomStatus(inpBuildingName, inpRoomNumber, inpAvailability);
+                    Admin.updateRoomStatus(inpBuildingName, inpRoomNumber, inpAvailability, connectionUrl);
                     break;
                 
                 case 1:
@@ -130,76 +135,5 @@ public class App {
             throw new IllegalArgumentException("Please enter a value between 0 to 2");
         }
         // }
-    }
-
-    // methods for procedures
-
-    // insertStudents WORKS!
-    public static int insertStudent(String firstName, String lastName, int year, boolean isRA, String email,
-            String phoneNumber) {
-
-        String callStoredProc = "{call dbo.insertStudent(?,?,?,?,?,?,?,?)}";
-
-        try (
-                Connection connection = DriverManager.getConnection(connectionUrl);
-                CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
-            connection.setAutoCommit(false);
-
-            // from user input
-            prepsStoredProc.setString(2, firstName);
-            prepsStoredProc.setString(3, lastName);
-            prepsStoredProc.setInt(5, year);
-            prepsStoredProc.setNull(4, java.sql.Types.INTEGER);
-            prepsStoredProc.setBoolean(6, isRA);
-            prepsStoredProc.setString(7, email);
-            prepsStoredProc.setString(8, phoneNumber);
-
-            prepsStoredProc.registerOutParameter(1,
-                    java.sql.Types.INTEGER);
-            
-            prepsStoredProc.execute();
-            int generatedId = prepsStoredProc.getInt(1);
-            System.out.println("New student ID: " +
-                    generatedId);
-            
-            connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
-            return generatedId;
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
-        return -1;
-
-    }
-
-    // updateRoomStatus is done
-    public static int updateRoomStatus(String buildingName, int roomNumber, String availability) {
-        String callStoredProc = "{call dbo.updateRoomStatus(?,?,?)}";
-
-        try (Connection connection = DriverManager.getConnection(connectionUrl);
-        CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
-            connection.setAutoCommit(false);
-
-            // from user input
-            prepsStoredProc.setString(1, buildingName);
-            prepsStoredProc.setInt(2, roomNumber);
-            prepsStoredProc.setString(3, availability);
-
-            prepsStoredProc.execute();
-
-            System.out.println(buildingName + ", Room #" + roomNumber + " is now " + availability);
-            
-            connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return -1;
-    }
-
-
-
-    public static int insertAmenity(String name, String category, String startTime, String endTime, String accessibility, int cost) {
-        return -1;
     }
 }
