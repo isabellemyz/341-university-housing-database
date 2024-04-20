@@ -60,9 +60,35 @@ public class App {
                     System.out.println("Enter student's phone number (XXX-XXX-XXXX), then press enter: ");
                     String inpPhoneNumber = myObj.nextLine();
 
+                    System.out.println("Please fill out your preference for housing. Press enter after each responce");
+                    System.out
+                            .println("Do you smoke, or do you not mind living with someone who smokes?(TRUE or FALSE)");
+                    boolean inpSmoke = myObj.nextBoolean();
+
+                    System.out.println(
+                            "What kind of music do you listen to?('hip hop', 'classical', 'pop', 'rock', 'jazz')");
+                    String inpMusic = myObj.nextLine().toLowerCase();
+
+                    System.out.println(
+                            "How do you want your space to be utilized?('studying', 'socializing', 'relaxing')");
+                    String inpSpace = myObj.nextLine().toLowerCase();
+
+                    System.out.println("When do you usually go to bed?(enter a number, ex. 8 = 8pm, 1 = 1 am)"); 
+                    int inpSleep = myObj.nextInt(); 
+
+                    System.out.println(
+                            "How do you prefer your living space to be organized?('messy', 'clean', 'lived-in')");
+                    String inpLiving = myObj.nextLine().toLowerCase(); 
+
+                    System.out.println("How many roommates are you comfortable living with?(enter a number between 1 to 9)");
+                    int inpRoommate = myObj.nextInt(); 
+
                     myObj.close();
 
-                    Student.insertStudent(inpFirstName, inpLastName, inpYear, inpIsRA, inpEmail, inpPhoneNumber, connectionUrl);
+                    int inpId = Student.insertStudent(inpFirstName, inpLastName, inpYear, inpIsRA, inpEmail, inpPhoneNumber,
+                            connectionUrl);
+                    Student.insertPreference(inpId, inpSmoke, inpMusic, inpSpace, inpSleep, inpLiving, inpRoommate, connectionUrl);
+
 
                     break;
                 case 1:

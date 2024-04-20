@@ -40,4 +40,28 @@ public class Student {
 
         return -1;
     }
+
+    public static void insertPreference(int id, boolean smoke, String music, String space, int sleep_time,
+            String living_style, int roommate_count, String connectionUrl) {
+        String callStoredProc = "{call dbo.insertPreference(?,?,?,?,?,?,?)}";
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+                CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
+            connection.setAutoCommit(false);
+
+            // from user input
+            prepsStoredProc.setInt(1, id);
+            prepsStoredProc.setBoolean(2, smoke);
+            prepsStoredProc.setString(3, music);
+            prepsStoredProc.setString(4, space);
+            prepsStoredProc.setInt(5, sleep_time);
+            prepsStoredProc.setString(6, living_style);
+            prepsStoredProc.setInt(7, roommate_count);
+
+            prepsStoredProc.execute();
+
+            connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
