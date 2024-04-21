@@ -170,24 +170,28 @@ grant execute on insertValidRequest to dbuser;
 
 -- This checks the insert properly functioned. It also provides more use for the use case of this for students
 -- because they can make sure they aren't submitting duplicate maintenance requests for shared amenities and can contact staff assigned.
-CREATE OR ALTER PROCEDURE GetMaintenanceRequests
+
+CREATE OR ALTER PROCEDURE GetRequestsAmenity
     @building_id INT,
     @amenity_id INT = NULL
+
 AS
 BEGIN
+    SET NOCOUNT ON;
 
     SELECT MR.request_id,
            ISNULL(stud.first_name + ' ' + stud.last_name, 'N/A') AS student_name,
            ISNULL(staff.first_name + ' ' + staff.last_name, 'N/A') AS staff_name,
+		   ISNULL(staff.staff_id, 'No staff has been assigned to this request yet') AS staff_id,
 		   ISNULL(staff.email, 'N/A') AS staff_email,
            ISNULL(staff.phone_number, 'N/A') AS staff_phone,
            MR.status,
            MR.date_submitted
     FROM maintenance_request MR
     LEFT JOIN student stud ON MR.student_id = stud.student_id
-    LEFT JOIN staff staff ON MR.staff_id = staff.staff_id
+	LEFT JOIN staff staff ON MR.staff_id = staff.staff_id
     WHERE MR.building_id = @building_id
       AND MR.status IN ('submitted', 'in progress')
-      AND MR.amenity_id = @amenity_id
-
+      AND MR.amenity_id = @amenity_id 
+   
 END;
