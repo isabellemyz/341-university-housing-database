@@ -142,3 +142,52 @@ END;
 
 --test
 -- EXEC AnalyzeStudentPreferences @fixed_id = 1002; -- Replace 1002 with the actual student ID
+
+-- Crystal's stored procedures:
+-- creating a procedure to submit a maintenance request that is valid
+
+-- on first submission, the request is 'submitted' and not yet 'in progress'
+CREATE or ALTER PROCEDURE insertValidRequest
+	@request_id int OUTPUT,
+	@student_id as int,
+	@staff_id as int,
+	@building_id as int,
+	@room_number as int,
+	@amenity_id as int,
+	@status as varchar(20),
+	@date_submitted as date,
+	@date_completed as date
+AS
+BEGIN
+INSERT INTO maintenance_request (student_id, staff_id, building_id, 
+room_number, amenity_id, status, date_submitted, date_completed)
+VALUES(@student_id, @staff_id, @building_id, @room_number,
+@amenity_id, @status, @date_submitted, @date_completed)
+SELECT @request_id = SCOPE_IDENTITY();
+END;
+
+grant execute on insertValidRequest to dbuser;
+
+-- This checks the insert properly functioned. It also provides more use for the use case of this for students
+-- because they can make sure they aren't submitting duplicate maintenance requests for shared amenities and can contact staff assigned.
+CREATE OR ALTER PROCEDURE GetMaintenanceRequests
+    @building_id INT,
+    @amenity_id INT = NULL
+AS
+BEGIN
+
+    SELECT MR.request_id,
+           ISNULL(stud.first_name + ' ' + stud.last_name, 'N/A') AS student_name,
+           ISNULL(staff.first_name + ' ' + staff.last_name, 'N/A') AS staff_name,
+		   ISNULL(staff.email, 'N/A') AS staff_email,
+           ISNULL(staff.phone_number, 'N/A') AS staff_phone,
+           MR.status,
+           MR.date_submitted
+    FROM maintenance_request MR
+    LEFT JOIN student stud ON MR.student_id = stud.student_id
+    LEFT JOIN staff staff ON MR.staff_id = staff.staff_id
+    WHERE MR.building_id = @building_id
+      AND MR.status IN ('submitted', 'in progress')
+      AND MR.amenity_id = @amenity_id
+
+END;
