@@ -126,3 +126,10 @@ insert into rooms (room_number, building_id, floors, capacity, price, status) va
 (300, @building_id, 2, 7, 6000, 'available'),
 (310, @building_id, 2, 7, 6000, 'unavailable'),
 (400, @building_id, 2, 7, 6000, 'unavailable');
+
+-- populating maintenance_request table
+INSERT INTO maintenance_request (student_id, staff_id, building_id, room_number, amenity_id, status, date_submitted, date_completed)
+VALUES
+(1002, NULL, 1002, 310, NULL, 'in progress', '2024-04-18 12:20:10', NULL),
+(1007, NULL, 1002, 500, NULL, 'completed', '2024-04-19 15:20:10', '2024-04-20 08:25:23'),
+(1003, 3007, 1001, 310, NULL, 'submitted', '2024-04-19 15:20:10', NULL);
