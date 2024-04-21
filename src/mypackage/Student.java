@@ -101,4 +101,48 @@ public class Student {
         }
 
     }
+    
+    public static int insertValidRequest(int student_id, int staff_id, int building_id, int room_number, int amenity_id, String status,
+           java.sql.Timestamp date_submitted,  java.sql.Timestamp date_completed,  String connectionUrl) {
+
+        String callStoredProc = "{call dbo.insertValidRequest(?,?,?,?,?,?,?,?,?)}";
+
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+                CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
+            connection.setAutoCommit(false);
+
+            // from user input
+            prepsStoredProc.setInt(2, student_id);
+            prepsStoredProc.setNull(3, java.sql.Types.INTEGER);
+            if(room_number == -1){
+                prepsStoredProc.setInt(4, building_id);
+                prepsStoredProc.setNull(5, java.sql.Types.INTEGER);
+                prepsStoredProc.setInt(6, amenity_id);
+            }
+            else if (amenity_id == -1){
+                prepsStoredProc.setInt(4, building_id);
+                prepsStoredProc.setInt(5, room_number);
+                prepsStoredProc.setNull(6, java.sql.Types.INTEGER);
+            }
+            prepsStoredProc.setString(7, status);
+            prepsStoredProc.setTimestamp(8, date_submitted);
+            prepsStoredProc.setNull(9, java.sql.Types.DATE);
+
+            prepsStoredProc.registerOutParameter(1,
+                    java.sql.Types.INTEGER);
+
+            prepsStoredProc.execute();
+
+            int generatedId = prepsStoredProc.getInt(1);
+            System.out.println("Maintenance Request ID: " + generatedId);
+
+            connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
+            return generatedId;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
 }
