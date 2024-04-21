@@ -215,3 +215,27 @@ END;
 -- DECLARE @newGroupId int; -- Declare a variable to hold the group ID
 -- EXEC InsertGroup @groupSize = 5, @coed = 1, @groupId = @newGroupId OUTPUT; -- Call the stored procedure
 -- SELECT @newGroupId AS NewGroupID; -- Display the newly inserted group ID
+
+CREATE or ALTER PROCEDURE assignGroup
+    @student_id int,
+    @group_id int
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    -- Check if the provided group_id exists in the groups table
+    IF NOT EXISTS (SELECT 1 FROM groups WHERE group_id = @group_id)
+    BEGIN
+        PRINT 'Error: Group with the provided group_id does not exist.';
+        RETURN; -- Exit the stored procedure
+    END
+    
+    -- Update the group_id of the student
+    UPDATE student
+    SET group_id = @group_id
+    WHERE student_id = @student_id;
+END;
+
+--exec
+-- EXEC assignGroup @student_id = 1005, @group_id = 100;
+-- SELECT * from student where student_id = 1005; 
