@@ -98,3 +98,33 @@ CREATE TABLE building_amenity (
 	FOREIGN KEY (building_id) REFERENCES buildings (building_id),
 	FOREIGN KEY (amenity_id) REFERENCES amenity (amenity_id)
 );
+
+-- initialize table maintenance_request
+CREATE TABLE maintenance_request (
+  request_id int identity(2000, 1),
+  student_id int,
+  staff_id int,
+  building_id int,
+  room_number int,
+  amenity_id int,
+  status varchar(20),
+  date_submitted date,
+  date_completed date,
+  PRIMARY KEY (request_id),
+  FOREIGN KEY (student_id) REFERENCES student(student_id),
+  FOREIGN KEY (staff_id) REFERENCES staff (staff_id),
+  FOREIGN KEY (room_number, building_id) REFERENCES rooms (room_number, building_id),
+  FOREIGN KEY (building_id, amenity_id) REFERENCES building_amenity (building_id, amenity_id),
+  CHECK (status in ('submitted', 'in progress', 'completed')),
+  CHECK (date_completed >= date_submitted)
+);
+
+-- initialize table assignment
+CREATE TABLE assignment (
+  group_id int,
+  room_number int,
+  building_id int,
+  PRIMARY KEY (group_id),
+  FOREIGN KEY (room_number, building_id) REFERENCES rooms (room_number, building_id),
+);
+
