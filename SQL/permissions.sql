@@ -56,4 +56,5 @@ grant execute on addAmenity to dbuser;
 grant execute on insertStudent to dbuser;
 grant execute on insertPreference to dbuser;
 grant execute on AnalyzeStudentPreferences to dbuser; 
+grant execute on insertValidRequest to dbuser;
 
