@@ -197,10 +197,11 @@ BEGIN
 END;
 
 
-CREATE PROCEDURE InsertGroup
+CREATE or ALTER PROCEDURE InsertGroup
+    @groupId int OUTPUT, 
     @groupSize int,
     @coed bit,
-    @groupId int OUTPUT
+
 AS
 BEGIN
     SET NOCOUNT ON;

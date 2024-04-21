@@ -104,27 +104,25 @@ public class App {
                     // update student
                     break;
                 case 2:
-                System.out.println(
-                    "Please enter an action:\n\t0:Create a new Group\n\t1:Join an existing group");
-            int groupAction = myObj.nextInt();
-            if (groupAction == 0){
-                // Student.insertGroup(); 
+                    System.out.println(
+                            "Please enter an action:\n\t0:Create a new Group\n\t1:Join an existing group");
+                    int groupAction = myObj.nextInt();
+                    if (groupAction == 0) {
+                        // Student.insertGroup();
 
-            }else if(groupAction == 1){
+                    } else if (groupAction == 1) {
 
-            }
+                    }
 
-            break;
                     break;
                 case 3:
                     // query room
                     break;
                 case 4:
-                System.out.println(
-                    "Please enter your student id, then press enter: ");
-                    int matchId = myObj.nextInt(); 
+                    System.out.println(
+                            "Please enter your student id, then press enter: ");
+                    int matchId = myObj.nextInt();
                     Student.matchStudent(matchId, connectionUrl);
-                    break;
                     break;
                 case 5:
                     System.out.println(
@@ -133,30 +131,29 @@ public class App {
                     if (maintenanceAction == 0) {
                         // insert maintenance request
                         System.out.println("Enter your student ID, then press enter: ");
-                        int inpSID= myObj.nextInt();
+                        int inpSID = myObj.nextInt();
 
                         int inpStaffID = -1;
                         int inpBuildingID = -1;
-                        int inpAmenityID=-1;
-                        int inpRoomNum=-1;
+                        int inpAmenityID = -1;
+                        int inpRoomNum = -1;
 
                         System.out.println(
-                            "Please enter where your maintenance request will be for:\n\t0: Your Room\n\t1: Building-wide Amenity");
-                       
-                            int maintenanceLocation = myObj.nextInt();
-                            if (maintenanceLocation == 0) {
-                                System.out.println("Enter your building's ID, then press enter: ");
-                                inpBuildingID = myObj.nextInt();
-                                System.out.println("Enter your room number, then press enter: ");
-                                inpRoomNum = myObj.nextInt();
-                            }
-                            else if (maintenanceLocation == 1) {
-                                System.out.println("Enter your building's ID, then press enter: ");
-                                inpBuildingID = myObj.nextInt();
-                                System.out.println("Enter the ID of the amenity in your building, then press enter: ");
-                                inpAmenityID = myObj.nextInt();
-                            }
-                            
+                                "Please enter where your maintenance request will be for:\n\t0: Your Room\n\t1: Building-wide Amenity");
+
+                        int maintenanceLocation = myObj.nextInt();
+                        if (maintenanceLocation == 0) {
+                            System.out.println("Enter your building's ID, then press enter: ");
+                            inpBuildingID = myObj.nextInt();
+                            System.out.println("Enter your room number, then press enter: ");
+                            inpRoomNum = myObj.nextInt();
+                        } else if (maintenanceLocation == 1) {
+                            System.out.println("Enter your building's ID, then press enter: ");
+                            inpBuildingID = myObj.nextInt();
+                            System.out.println("Enter the ID of the amenity in your building, then press enter: ");
+                            inpAmenityID = myObj.nextInt();
+                        }
+
                         String inpStatus = "submitted";
                         Timestamp inpDateSub = new Timestamp(System.currentTimeMillis());
                         Timestamp inpDateComp = null;
@@ -165,13 +162,15 @@ public class App {
 
                         myObj.close();
 
-                        Student.insertValidRequest(inpSID,inpStaffID,inpBuildingID,inpRoomNum,inpAmenityID, inpStatus, inpDateSub, inpDateComp, connectionUrl);
-                        
-                    } else if (maintenanceAction == 1) {
-                        // query database for all requests related to this building_id and amenity_id/room_number and 'submitted' or 'in progress' and show who made the request (name)
-                        System.out.println("Enter your student ID, then press enter: ");
-                        int inpSID= myObj.nextInt();
+                        Student.insertValidRequest(inpSID, inpStaffID, inpBuildingID, inpRoomNum, inpAmenityID,
+                                inpStatus, inpDateSub, inpDateComp, connectionUrl);
 
+                    } else if (maintenanceAction == 1) {
+                        // query database for all requests related to this building_id and
+                        // amenity_id/room_number and 'submitted' or 'in progress' and show who made the
+                        // request (name)
+                        System.out.println("Enter your student ID, then press enter: ");
+                        int inpSID = myObj.nextInt();
 
                     }
                     break;
@@ -273,8 +272,5 @@ public class App {
     private static Timestamp parseTimestamp(String timestampStr) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return new Timestamp(dateFormat.parse(timestampStr).getTime());
-    }
-}
-
     }
 }

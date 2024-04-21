@@ -145,4 +145,32 @@ public class Student {
         return -1;
     }
 
+    public static int createGroup(int groupSize, boolean coed, String connectionUrl) {
+        String callStoredProc = "{call dbo.InsertGroup(?, ?, ?)}";
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+                CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
+            connection.setAutoCommit(false);
+
+            // from user input
+            prepsStoredProc.setInt(2, groupSize);
+            prepsStoredProc.setBoolean(3, coed);
+
+            prepsStoredProc.registerOutParameter(1,
+                    java.sql.Types.INTEGER);
+
+            prepsStoredProc.execute();
+
+            int generatedId = prepsStoredProc.getInt(1);
+            System.out.println("New student ID: " + generatedId + "/n Please remember this for other operations!");
+
+            connection.commit(); // comment this line to show the values are not "saved" i.e. committed in db
+            return generatedId;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;
+    }
+
 }
