@@ -120,7 +120,11 @@ public class App {
                     // query room
                     break;
                 case 4:
-                    // query student preference
+                System.out.println(
+                    "Please enter your student id, then press enter: ");
+                    int matchId = myObj.nextInt(); 
+                    Student.matchStudent(matchId, connectionUrl);
+                    break;
                     break;
                 case 5:
                     System.out.println(
