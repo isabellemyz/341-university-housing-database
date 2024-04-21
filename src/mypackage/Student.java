@@ -3,6 +3,7 @@ package mypackage;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Student {
@@ -63,5 +64,41 @@ public class Student {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+        public static void matchStudent(int studentId, String connectionUrl) {
+
+        String callStoredProc = "{call dbo.AnalyzeStudentPreferences(?)}";
+        try (Connection connection = DriverManager.getConnection(connectionUrl);
+                CallableStatement prepsStoredProc = connection.prepareCall(callStoredProc);) {
+                    connection.setAutoCommit(false);
+
+                    //input
+                    prepsStoredProc.setInt(1, studentId);
+                    try (ResultSet rs = prepsStoredProc.executeQuery()) {
+                    // Print out the query result
+                    while (rs.next()) {
+                        int student_Id = rs.getInt("student_id");
+                        String fullName = rs.getString("full_name");
+                        String phoneNumber = rs.getString("phone_number");
+                        String email = rs.getString("email");
+                        int year = rs.getInt("year");
+                        double similarityScore = rs.getDouble("similarity_score");
+                        
+                        // Print out the student information
+                        System.out.println("Student ID: " + student_Id);
+                        System.out.println("Full Name: " + fullName);
+                        System.out.println("Phone Number: " + phoneNumber);
+                        System.out.println("Email: " + email);
+                        System.out.println("Year: " + year);
+                        System.out.println("Similarity Score: " + similarityScore);
+                        System.out.println();
+                    }
+                }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 }
