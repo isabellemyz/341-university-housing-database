@@ -104,7 +104,17 @@ public class App {
                     // update student
                     break;
                 case 2:
-                    // insertGroup
+                System.out.println(
+                    "Please enter an action:\n\t0:Create a new Group\n\t1:Join an existing group");
+            int groupAction = myObj.nextInt();
+            if (groupAction == 0){
+                // Student.insertGroup(); 
+
+            }else if(groupAction == 1){
+
+            }
+
+            break;
                     break;
                 case 3:
                     // query room
