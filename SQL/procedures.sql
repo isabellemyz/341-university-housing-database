@@ -195,3 +195,22 @@ BEGIN
       AND MR.amenity_id = @amenity_id 
    
 END;
+
+
+CREATE PROCEDURE InsertGroup
+    @groupSize int,
+    @coed bit,
+    @groupId int OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    INSERT INTO groups (groupSize, coed)
+    VALUES (@groupSize, @coed);
+
+    SET @groupId = SCOPE_IDENTITY(); -- Retrieve the newly inserted group ID
+END;
+
+-- DECLARE @newGroupId int; -- Declare a variable to hold the group ID
+-- EXEC InsertGroup @groupSize = 5, @coed = 1, @groupId = @newGroupId OUTPUT; -- Call the stored procedure
+-- SELECT @newGroupId AS NewGroupID; -- Display the newly inserted group ID
