@@ -53,3 +53,7 @@ GRANT DELETE ON student TO dbuser;
 -- granting permissions for stored procedures
 use UniversityHousing;
 grant execute on addAmenity to dbuser;
+grant execute on insertStudent to dbuser;
+grant execute on insertPreference to dbuser;
+grant execute on AnalyzeStudentPreferences to dbuser; 
+

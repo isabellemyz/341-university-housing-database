@@ -114,3 +114,31 @@ END
 --	@cost = 0,
 --	@building_name = 'Taft',
 --	@amenity_count = 3
+
+CREATE PROCEDURE AnalyzeStudentPreferences
+    @fixed_id INT
+AS
+BEGIN
+SELECT TOP 10 p.student_id,     
+CONCAT(
+        COALESCE(s.first_name + ' ', ''),
+        s.last_name
+    ) AS full_name,
+	s.phone_number, 
+	s.email,
+	s.year,
+       (CASE WHEN p.smoke = fixed.smoke THEN 1 ELSE 0 END +
+        CASE WHEN p.music = fixed.music THEN 1 ELSE 0 END +
+        CASE WHEN p.space = fixed.space THEN 1 ELSE 0 END +
+        CASE WHEN p.sleep_time = fixed.sleep_time THEN 1 ELSE 0 END +
+        CASE WHEN p.living_style = fixed.living_style THEN 1 ELSE 0 END +
+        CASE WHEN p.roommate_count = fixed.roommate_count THEN 1 ELSE 0 END) AS similarity_score
+FROM preference p INNER JOIN student s ON p.student_id = s.student_id, (SELECT * FROM preference p WHERE p.student_id = @fixed_id) as fixed
+
+WHERE p.student_id <> @fixed_id and s.group_id is null
+ORDER BY similarity_score DESC; 
+END; 
+
+
+--test
+-- EXEC AnalyzeStudentPreferences @fixed_id = 1002; -- Replace 1002 with the actual student ID
