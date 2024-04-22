@@ -271,4 +271,11 @@ BEGIN
     AND r.status = 'available';
 END;
 
---EXEC ViewAvailableRoom @group_id = 100; 
+--EXEC ViewAvailableRoom @group_id = 100;
+
+-- stored procedure for viewing all students
+CREATE or ALTER PROCEDURE viewAllStudents
+AS
+BEGIN
+	SELECT * FROM student;
+END
