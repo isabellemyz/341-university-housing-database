@@ -47,7 +47,7 @@ END;
 -- this is tested
 -- procedure for updating room status (available or unavailable)
 CREATE or ALTER PROCEDURE updateRoomStatus
-	@building_name varchar(20),
+	@building_id int,
 	@room_number int,
 	@availability varchar(20)
 AS
@@ -63,9 +63,20 @@ END;
 
 -- example exec statement below
 -- EXEC updateRoomStatus
---	@building_name = 'Taft',
+--	@building_id = 1000,
 --	@room_number = 100,
 --	@availability = 'unavailable';
+
+-- procedure for getting a building name based on its ID
+CREATE or ALTER PROCEDURE getBuildingNameFromID
+    @building_name varchar(20) output,
+    @building_id int
+AS
+BEGIN
+    SELECT @building_name = name
+    FROM buildings
+    WHERE building_id = @building_id
+END;
 
 
 -- this is tested
