@@ -279,3 +279,21 @@ AS
 BEGIN
 	SELECT * FROM student;
 END
+
+-- stored procedure for deleting an amenity
+CREATE or ALTER PROCEDURE deleteAmenity
+	@amenity_id int,
+	@building_id int
+AS
+BEGIN
+	BEGIN TRANSACTION; 
+		DELETE FROM building_amenity
+		WHERE building_id = @building_id
+			AND amenity_id = @amenity_id 
+	COMMIT TRANSACTION;
+
+	BEGIN TRANSACTION;
+		DELETE FROM amenity
+		WHERE amenity_id = @amenity_id
+	COMMIT TRANSACTION;
+END
