@@ -75,3 +75,4 @@ grant execute on getSubmittedRequests to dbuser;
 grant execute on assignStaffToRequest to dbuser;
 grant execute on changeRequestStatusToCompleted to dbuser;
 grant execute on getStaffMaintenanceRequests to dbuser;
+grant execute on updateRoomStatus to dbuser;
