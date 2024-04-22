@@ -303,11 +303,11 @@ BEGIN
         END
         ELSE
         BEGIN
-            RAISEERROR('The specified amenity ID is not valid', 16, 1);
+            RAISERROR('The specified amenity ID is not valid', 16, 1);
         END
     END
     ELSE
     BEGIN
-            RAISEERROR('The specified building ID is not valid', 16, 1);
+            RAISERROR('The specified building ID is not valid', 16, 1);
     END
 END
