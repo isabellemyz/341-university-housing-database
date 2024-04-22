@@ -62,3 +62,5 @@ grant execute on assignGroup to dbuser;
 grant execute on ViewAvailableRoom to dbuser; 
 grant execute on viewAllStudents to dbuser;
 grant execute on deleteAmenity to dbuser;
+grant execute on getGroupCountAndSize to dbuser;
+
