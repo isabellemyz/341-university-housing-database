@@ -216,21 +216,21 @@ END;
 
 CREATE or ALTER PROCEDURE InsertGroup
     @groupId int OUTPUT, 
-    @groupSize int,
+    @group_size int,
     @coed bit,
 
 AS
 BEGIN
     SET NOCOUNT ON;
     
-    INSERT INTO groups (groupSize, coed)
-    VALUES (@groupSize, @coed);
+    INSERT INTO groups (group_size, coed)
+    VALUES (@group_size, @coed);
 
     SET @groupId = SCOPE_IDENTITY(); -- Retrieve the newly inserted group ID
 END;
 
 -- DECLARE @newGroupId int; -- Declare a variable to hold the group ID
--- EXEC InsertGroup @groupSize = 5, @coed = 1, @groupId = @newGroupId OUTPUT; -- Call the stored procedure
+-- EXEC InsertGroup @group_size = 5, @coed = 1, @groupId = @newGroupId OUTPUT; -- Call the stored procedure
 -- SELECT @newGroupId AS NewGroupID; -- Display the newly inserted group ID
 
 CREATE or ALTER PROCEDURE assignGroup
@@ -349,3 +349,30 @@ BEGIN
 END;
 
 --EXEC GetGroupCountAndSize @group_id = 101;
+
+-- stored procedure for viewing all students and their groups
+CREATE or ALTER PROCEDURE viewAllStudentGroups
+AS
+BEGIN
+	SELECT *
+    FROM student INNER JOIN groups
+        ON student.group_id = groups.group_id
+END;
+
+-- stored procedure for getting building name given its ID
+CREATE or ALTER PROCEDURE getBuildingNameFromID
+	@building_name varchar(20) output,
+	@building_id int
+AS
+BEGIN
+	SELECT @building_name = name
+	FROM buildings
+	WHERE building_id = @building_id
+END;
+
+-- exec statement:
+-- Use UniversityHousing
+-- DECLARE @building_name varchar(20)
+-- EXEC getBuildingNameFromID
+--	@building_name OUTPUT,
+--	@building_id = 1000
