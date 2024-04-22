@@ -1,5 +1,5 @@
 -- granting permissions for tables
-use UniversityHousing;
+USE UniversityHousing;
 GRANT SELECT ON amenity TO dbuser;
 GRANT INSERT ON amenity TO dbuser;
 GRANT UPDATE ON amenity TO dbuser;
