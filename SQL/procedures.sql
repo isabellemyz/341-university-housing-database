@@ -311,3 +311,21 @@ BEGIN
             RAISERROR('The specified building ID is not valid', 16, 1);
     END
 END
+
+CREATE PROCEDURE getGroupCountAndSize
+    @group_id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT limit.group_count, g.groupSize
+    FROM (
+        SELECT COUNT(*) AS group_count, group_id
+        FROM student
+        WHERE group_id = @group_id
+        GROUP BY group_id
+    ) AS limit
+    INNER JOIN groups g ON limit.group_id = g.group_id;
+END;
+
+--EXEC GetGroupCountAndSize @group_id = 101;
