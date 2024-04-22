@@ -93,7 +93,7 @@ BEGIN
     BEGIN
         -- Update the status of the maintenance request to 'completed'
         UPDATE maintenance_request
-        SET status = 'completed',
+        SET status = 'completed'
 		-- I have a trigger that changes date so that is unnecessary
         WHERE request_id = @request_id;
     END
