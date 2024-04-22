@@ -1,5 +1,3 @@
-USE UniversityHousing;
-
 -- stored procedure for inserting a new student
 CREATE or ALTER PROCEDURE insertStudent
   @student_id int output, 
