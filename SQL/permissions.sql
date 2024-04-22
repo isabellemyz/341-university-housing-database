@@ -60,3 +60,4 @@ grant execute on insertValidRequest to dbuser;
 grant execute on InsertGroup to dbuser; 
 grant execute on assignGroup to dbuser; 
 grant execute on ViewAvailableRoom to dbuser; 
+grant execute on viewAllStudents to dbuser;
