@@ -286,6 +286,15 @@ BEGIN
 	SELECT * FROM student;
 END
 
+-- stored procedure for viewing student groups
+CREATE or ALTER PROCEDURE viewAllStudentGroups
+AS
+BEGIN
+	SELECT *
+    FROM groups INNER JOIN assignment
+        ON groups.group_id = assignment.group_id
+END
+
 -- stored procedure for deleting an amenity from a building
 CREATE or ALTER PROCEDURE deleteAmenityFromBuilding
 	@amenity_id int,
