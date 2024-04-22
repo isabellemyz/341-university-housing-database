@@ -65,4 +65,8 @@ grant execute on viewAllStudents to dbuser;
 grant execute on deleteAmenityFromBuilding to dbuser;
 grant execute on getGroupCountAndSize to dbuser;
 grant execute on viewAllStudentGroups to dbuser;
+grant execute on deleteAmenity to dbuser;
+grant execute on deleteAmenityFromBuilding to dbuser;
+grant execute on getAmenityNameFromID to dbuser;
+grant execute on getBuildingNameFromID to dbuser;
 
