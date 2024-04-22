@@ -376,3 +376,31 @@ END;
 -- EXEC getBuildingNameFromID
 --	@building_name OUTPUT,
 --	@building_id = 1000
+
+
+-- stored procedure to delete an amenity entirely
+CREATE or ALTER PROCEDURE deleteAmenity
+	@amenity_id int
+AS
+BEGIN
+	IF EXISTS (SELECT 1 FROM building_amenity WHERE amenity_id = @amenity_id)
+	BEGIN
+		RAISERROR('Amenity still in use at a building', 16, 1);
+	END
+	ELSE
+	BEGIN
+		DELETE FROM amenity
+		WHERE amenity_id = @amenity_id
+	END
+END
+
+-- stored procedure to get amenity name given its ID
+CREATE or ALTER PROCEDURE getAmenityNameFromID
+	@amenity_name varchar(20) output,
+	@amenity_id int
+AS
+BEGIN
+	SELECT @amenity_name = name
+	FROM amenity
+	WHERE amenity_id = @amenity_id
+END
