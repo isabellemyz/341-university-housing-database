@@ -64,4 +64,5 @@ grant execute on ViewAvailableRoom to dbuser;
 grant execute on viewAllStudents to dbuser;
 grant execute on deleteAmenityFromBuilding to dbuser;
 grant execute on getGroupCountAndSize to dbuser;
+grant execute on viewAllStudentGroups to dbuser;
 
