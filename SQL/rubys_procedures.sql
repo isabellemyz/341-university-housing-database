@@ -72,15 +72,15 @@ END;
 
 CREATE or ALTER PROCEDURE InsertGroup
     @groupId int OUTPUT, 
-    @group_size int,
+    @groupSize int,
     @coed bit,
 
 AS
 BEGIN
     SET NOCOUNT ON;
     
-    INSERT INTO groups (group_size, coed)
-    VALUES (@group_size, @coed);
+    INSERT INTO groups (groupSize, coed)
+    VALUES (@groupSize, @coed);
 
     SET @groupId = SCOPE_IDENTITY(); -- Retrieve the newly inserted group ID
 END;
