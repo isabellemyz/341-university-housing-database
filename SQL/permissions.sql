@@ -69,4 +69,9 @@ grant execute on deleteAmenity to dbuser;
 grant execute on deleteAmenityFromBuilding to dbuser;
 grant execute on getAmenityNameFromID to dbuser;
 grant execute on getBuildingNameFromID to dbuser;
-
+grant execute on insertValidRequest to dbuser;
+grant execute on getRequestsAmenity to dbuser;
+grant execute on getSubmittedRequests to dbuser;
+grant execute on assignStaffToRequest to dbuser;
+grant execute on changeRequestStatusToCompleted to dbuser;
+grant execute on getStaffMaintenanceRequests to dbuser;
