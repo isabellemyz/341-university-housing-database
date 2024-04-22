@@ -77,31 +77,13 @@ CREATE OR ALTER PROCEDURE addAmenity
     @end_time datetime,
     @description varchar(50),
     @cost int,
-    @building_name varchar(100),
-    @amenity_count int
+    @amenity_id int output
 AS
 BEGIN
-    DECLARE @building_id int;
-    DECLARE @amenity_id int;
-
-    BEGIN TRANSACTION;
-
     INSERT INTO amenity (name, category, start_time, end_time, description, cost)
     VALUES (@amenity_name, @category, @start_time, @end_time, @description, @cost);
-
-	SET @amenity_id = SCOPE_IDENTITY();
-
-    COMMIT TRANSACTION;
-
-    BEGIN TRANSACTION;
-
-    SET @building_id = (SELECT building_id FROM buildings WHERE name = @building_name);
-
-    INSERT INTO building_amenity (building_id, amenity_id, amenity_count)
-    VALUES (@building_id, @amenity_id, @amenity_count);
-
-    COMMIT TRANSACTION;
-
+    
+    SET @amenity_id = SCOPE_IDENTITY();
 END
 
 -- example exec statement below
@@ -305,6 +287,7 @@ BEGIN
     END
 END
 
+-- stored procedure for getting group count and size
 CREATE PROCEDURE getGroupCountAndSize
     @group_id INT
 AS
