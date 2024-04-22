@@ -286,14 +286,28 @@ CREATE or ALTER PROCEDURE deleteAmenity
 	@building_id int
 AS
 BEGIN
-	BEGIN TRANSACTION; 
-		DELETE FROM building_amenity
-		WHERE building_id = @building_id
-			AND amenity_id = @amenity_id 
-	COMMIT TRANSACTION;
-
-	BEGIN TRANSACTION;
-		DELETE FROM amenity
-		WHERE amenity_id = @amenity_id
-	COMMIT TRANSACTION;
+	IF EXISTS (SELECT 1 FROM building_amenity WHERE building_id = @building_id)
+    BEGIN
+        IF EXISTS (SELECT 1 FROM building_amenity WHERE amenity_id = @amenity_id)
+        BEGIN
+            BEGIN TRANSACTION; 
+                DELETE FROM building_amenity
+                WHERE building_id = @building_id
+                    AND amenity_id = @amenity_id;
+            COMMIT TRANSACTION;
+        
+            BEGIN TRANSACTION;
+                DELETE FROM amenity
+                WHERE amenity_id = @amenity_id;
+            COMMIT TRANSACTION;
+        END
+        ELSE
+        BEGIN
+            RAISEERROR('The specified amenity ID is not valid', 16, 1);
+        END
+    END
+    ELSE
+    BEGIN
+            RAISEERROR('The specified building ID is not valid', 16, 1);
+    END
 END
