@@ -1,5 +1,4 @@
 -- creating a procedure to submit a maintenance request that is valid
-
 -- on first submission, the request is 'submitted' and not yet 'in progress'
 CREATE or ALTER PROCEDURE insertValidRequest
 	@request_id int OUTPUT,
@@ -29,9 +28,8 @@ BEGIN
     SELECT MR.request_id,
            ISNULL(stud.first_name + ' ' + stud.last_name, 'N/A') AS student_name,
            ISNULL(staff.first_name + ' ' + staff.last_name, 'N/A') AS staff_name,
-		   ISNULL(staff.staff_id, 'No staff has been assigned to this request yet') AS staff_id,
+		   MR.staff_id,
 		   ISNULL(staff.email, 'N/A') AS staff_email,
-           ISNULL(staff.phone_number, 'N/A') AS staff_phone,
            MR.status,
            MR.date_submitted
     FROM maintenance_request MR
@@ -43,6 +41,7 @@ BEGIN
    
 END;
 
+--Select statement to see all unresolved requests
 CREATE OR ALTER PROCEDURE getSubmittedRequests
 AS
 BEGIN
@@ -50,8 +49,8 @@ BEGIN
            ISNULL(S.first_name + ' ' + S.last_name, 'N/A') AS student_name,
            ISNULL(ST.first_name + ' ' + ST.last_name, 'N/A') AS staff_name,
 		   MR.building_id,
-		   ISNULL(MR.room_number, 'N/A') AS room_number,
-		   ISNULL(MR.amenity_id, 'N/A') AS amenity_id,
+		   MR.room_number,
+		   MR.amenity_id,
            MR.status,
            MR.date_submitted
     FROM maintenance_request MR
@@ -60,7 +59,7 @@ BEGIN
     WHERE MR.status = 'submitted';
 END;
 
-
+--Update statement to assign a staff member to a maintenance request
 CREATE OR ALTER PROCEDURE assignStaffToRequest
     @request_id INT,
     @staff_id INT
@@ -84,8 +83,10 @@ BEGIN
     END
 END;
 
+--Update statement to resolve a maintenance request
 CREATE OR ALTER PROCEDURE changeRequestStatusToCompleted
-    @request_id INT
+    @request_id INT,
+	@staff_id INT
 AS
 BEGIN
     -- Check if the request exists and its current status is 'in progress'
@@ -93,7 +94,9 @@ BEGIN
     BEGIN
         -- Update the status of the maintenance request to 'completed'
         UPDATE maintenance_request
-        SET status = 'completed'
+        SET 
+		status = 'completed',
+		staff_id = @staff_id
 		-- I have a trigger that changes date so that is unnecessary
         WHERE request_id = @request_id;
     END
@@ -104,15 +107,16 @@ BEGIN
     END
 END;
 
+--Select statement to see staff's outgoing maintenance requests
 CREATE OR ALTER PROCEDURE getStaffMaintenanceRequests
     @staff_id INT
 AS
 BEGIN
     SELECT MR.request_id,
            ISNULL(S.first_name + ' ' + S.last_name, 'N/A') AS student_name,
-           ISNULL(MR.building_id, 'N/A') AS building_id,
-           ISNULL(MR.room_number, 'N/A') AS room_number,
-           ISNULL(MR.amenity_id, 'N/A') AS amenity_id,
+           MR.building_id,
+           MR.room_number,
+		   MR.amenity_id,
            MR.status,
            MR.date_submitted,
 		   MR.date_completed
