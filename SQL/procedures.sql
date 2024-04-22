@@ -280,8 +280,8 @@ BEGIN
 	SELECT * FROM student;
 END
 
--- stored procedure for deleting an amenity
-CREATE or ALTER PROCEDURE deleteAmenity
+-- stored procedure for deleting an amenity from a building
+CREATE or ALTER PROCEDURE deleteAmenityFromBuilding
 	@amenity_id int,
 	@building_id int
 AS
@@ -290,16 +290,9 @@ BEGIN
     BEGIN
         IF EXISTS (SELECT 1 FROM building_amenity WHERE amenity_id = @amenity_id)
         BEGIN
-            BEGIN TRANSACTION; 
-                DELETE FROM building_amenity
-                WHERE building_id = @building_id
-                    AND amenity_id = @amenity_id;
-            COMMIT TRANSACTION;
-        
-            BEGIN TRANSACTION;
-                DELETE FROM amenity
-                WHERE amenity_id = @amenity_id;
-            COMMIT TRANSACTION;
+            DELETE FROM building_amenity
+            WHERE building_id = @building_id
+                AND amenity_id = @amenity_id;
         END
         ELSE
         BEGIN
