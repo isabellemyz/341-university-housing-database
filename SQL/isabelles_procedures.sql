@@ -8,11 +8,11 @@ CREATE or ALTER PROCEDURE updateRoomStatus
 AS
 BEGIN
 UPDATE rooms
-SET rooms.status = @availability
-FROM rooms INNER JOIN buildings ON (rooms.building_id = buildings.building_id)
+SET status = @availability
+FROM rooms
 WHERE (
-	buildings.name = @building_name AND
-	rooms.room_number = @room_number
+	buildings_id = @building_id AND
+	room_number = @room_number
 )
 END;
 
