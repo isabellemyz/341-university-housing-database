@@ -239,3 +239,36 @@ END;
 --exec
 -- EXEC assignGroup @student_id = 1005, @group_id = 100;
 -- SELECT * from student where student_id = 1005; 
+
+--Students that has a group should be able to view available rooms, after selected a room by its building and room#, student can assign their group
+-- to the room by inputting info into the stored procedure. After a room is being chosen by a student, it's should become 
+-- occupied or unavailable. 
+CREATE or ALTER PROCEDURE ViewAvailableRoom
+    @group_id int
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Declare variables
+    DECLARE @groupSize int;
+
+    -- Get the group size based on group_id
+    SELECT @groupSize = groupSize
+    FROM groups
+    WHERE group_id = @group_id;
+
+    -- Check if the group exists
+    IF @groupSize IS NULL
+    BEGIN
+        PRINT 'Error: Group with the provided group_id does not exist.';
+        RETURN;
+    END;
+
+    -- View available rooms
+    SELECT r.room_number, r.building_id, r.floors, r.capacity, r.price, r.status
+    FROM rooms r
+    WHERE r.capacity = @groupSize
+    AND r.status = 'available';
+END;
+
+--EXEC ViewAvailableRoom @group_id = 100; 
