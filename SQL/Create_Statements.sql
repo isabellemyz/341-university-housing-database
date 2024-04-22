@@ -3,7 +3,7 @@ USE UniversityHousing;
 --initialize groups
 CREATE TABLE groups (
   group_id int identity(100, 1) ,
-  groupSize int, 
+  group_size int, 
   coed bit, -- here 1 represents 'yes' to coed and 0 is 'no'
   PRIMARY KEY (group_id)
 );
