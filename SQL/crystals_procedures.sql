@@ -20,8 +20,6 @@ VALUES(@student_id, @staff_id, @building_id, @room_number,
 SELECT @request_id = SCOPE_IDENTITY();
 END;
 
-grant execute on insertValidRequest to dbuser;
-
 CREATE OR ALTER PROCEDURE getRequestsAmenity
     @building_id INT,
     @amenity_id INT = NULL
@@ -45,8 +43,6 @@ BEGIN
    
 END;
 
-grant execute on getRequestsAmenity to dbuser;
-
 CREATE OR ALTER PROCEDURE getSubmittedRequests
 AS
 BEGIN
@@ -64,7 +60,6 @@ BEGIN
     WHERE MR.status = 'submitted';
 END;
 
-grant execute on getSubmittedRequests to dbuser;
 
 CREATE OR ALTER PROCEDURE assignStaffToRequest
     @request_id INT,
@@ -88,7 +83,6 @@ BEGIN
         RAISERROR('The specified request is not available.', 16, 1);
     END
 END;
-grant execute on assignStaffToRequest to dbuser;
 
 CREATE OR ALTER PROCEDURE changeRequestStatusToCompleted
     @request_id INT
@@ -110,8 +104,6 @@ BEGIN
     END
 END;
 
-grant execute on changeRequestStatusToCompleted to dbuser;
-
 CREATE OR ALTER PROCEDURE getStaffMaintenanceRequests
     @staff_id INT
 AS
@@ -128,5 +120,3 @@ BEGIN
     LEFT JOIN student S ON MR.student_id = S.student_id
     WHERE MR.staff_id = @staff_id;
 END;
-
-grant execute on getStaffMaintenanceRequests to dbuser;
