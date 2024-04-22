@@ -71,13 +71,13 @@ END;
 -- this is tested
 -- procedure for adding a new amenity
 CREATE OR ALTER PROCEDURE addAmenity
+    @amenity_id int output,
     @amenity_name varchar(100),
     @category varchar(100),
     @start_time datetime,
     @end_time datetime,
     @description varchar(50),
-    @cost int,
-    @amenity_id int output
+    @cost int
 AS
 BEGIN
     INSERT INTO amenity (name, category, start_time, end_time, description, cost)
@@ -93,10 +93,34 @@ END
 --	@start_time = '2024-04-18 08:00:00.000',
 --	@end_time = '2024-04-18 08:00:00.000',
 --	@description = 'Water station for drinking',
---	@cost = 0,
---	@building_name = 'Taft',
---	@amenity_count = 3
+--	@cost = 0
 
+-- stored procedure for adding amenity to a building
+CREATE OR ALTER PROCEDURE addAmenityToBuilding
+	@building_id int,
+	@amenity_id int,
+	@amenity_count int
+AS
+BEGIN
+	IF EXISTS (SELECT 1 FROM buildings WHERE building_id = @building_id)
+	BEGIN
+		IF EXISTS (SELECT 1 FROM amenity WHERE amenity_id = @amenity_id)
+		BEGIN
+			INSERT INTO building_amenity (building_id, amenity_id, amenity_count)
+			VALUES (@building_id, @amenity_id, @amenity_count);
+		END
+		ELSE
+		BEGIN
+			RAISERROR('Amenity ID is not valid', 16, 1);
+		END
+	END
+	ELSE
+	BEGIN
+		RAISERROR('Building ID is not valid', 16, 1);
+	END
+END
+
+-- stored procedure for analyzing student preferences
 CREATE PROCEDURE AnalyzeStudentPreferences
     @fixed_id INT
 AS
